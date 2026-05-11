@@ -6,7 +6,7 @@ Entrega atual restrita a **Fase 1: Arquitetura distribuida**.
 
 O projeto demonstra uma arquitetura em JavaScript/Node.js com multiplos componentes se comunicando por REST. Ele usa o tema de Formula 1 para mostrar o fluxo entre front-end, gateway, controle, base de conhecimento local, componente externo planejado e servico de composicao de resposta.
 
-Importante: **RAG, modelo generativo externo e MCP nao estao implementados nesta fase**. Esses itens ficam para as Fases 2 e 3.
+Importante: **RAG, modelo generativo externo e MCP não estao implementados nesta fase**. Esses itens ficam para as Fases 2 e 3.
 
 ## Como rodar
 
