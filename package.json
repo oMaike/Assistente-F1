@@ -1,0 +1,19 @@
+{
+  "name": "assistente-f1-sistemas-distribuidos",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev-distributed.js",
+    "service:gateway": "node src/services/gatewayService.js",
+    "service:orchestrator": "node src/services/orchestratorService.js",
+    "service:knowledge": "node src/services/knowledgeBaseService.js",
+    "service:external-api": "node src/services/externalApiService.js",
+    "service:explanation": "node src/services/explanationService.js",
+    "start": "node scripts/dev-distributed.js",
+    "test": "node scripts/smoke-test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

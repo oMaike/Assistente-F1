@@ -1,0 +1,13 @@
+flowchart LR
+  U[Usuario] --> F[Front Web]
+  F --> G[Gateway Service :3000]
+  G --> C[Orchestrator Service :3001]
+  C --> K[Knowledge Base Service :3002]
+  C --> E[External API Service :3003]
+  C --> X[Explanation Service :3004]
+  K --> C
+  E --> C
+  X --> C
+  C --> G
+  G --> F
+  F --> U
