@@ -12,7 +12,7 @@ Importante: **RAG, modelo generativo externo e MCP não estao implementados nest
 
 ## Material de referencia
 
-- [PDF-base da arquitetura](arq_sistemas_distribuidos.pdf): esboco original usado como referencia para separar Front, Gateway, Controle, base de conhecimento, componente externo e servico de resposta.
+- [PDF-base da arquitetura](arq_sistemas_distribuidos.pdf): esboço original usado como referencia para separar Front, Gateway, Controle, base de conhecimento, componente externo e servico de resposta.
 - [Diagrama da arquitetura](docs/architecture.mmd): diagrama Mermaid da arquitetura implementada nesta Fase 1.
 
 **Legenda do PDF-base:** o PDF apresenta a ideia geral de um sistema distribuido com usuario, front-end, gateway, controle, servicos auxiliares e componente externo. Neste projeto, essa ideia foi adaptada para um assistente de conceitos de Formula 1.
