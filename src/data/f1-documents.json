@@ -1,0 +1,205 @@
+[
+  {
+    "id": "track-limits-regulation",
+    "title": "Track Limits - Regulamento FIA 2024",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 33.3",
+    "tags": ["track limits", "penalty", "pista", "limites", "regulamento"],
+    "text": "De acordo com o Artigo 33.3 do Regulamento Desportivo da FIA, os pilotos devem manter o carro dentro dos limites da pista em todos os momentos. Os limites da pista sao definidos pelas bordas brancas que delimitam a pista de corrida. Um carro sera considerado fora dos limites quando nenhuma parte do carro permanecer em contato com a pista. Se um piloto ganhar vantagem permanente saindo dos limites da pista, os comissarios podem aplicar uma penalidade de tempo de 5 ou 10 segundos, ou ate mesmo uma advertencia, dependendo da magnitude da vantagem obtida e da frequencia da infracao. Durante as sessoes de classificacao, a violacao de track limits resulta na delecao do tempo da volta."
+  },
+  {
+    "id": "drs-regulation",
+    "title": "DRS - Sistema de Reducao de Arrasto",
+    "source": "FIA Formula 1 Technical Regulations, Art. 3.6",
+    "tags": ["drs", "asa", "ultrapassagem", "zona", "aerodinamica"],
+    "text": "O DRS (Drag Reduction System) e um sistema hidraulico controlado eletronicamente que permite ao piloto ajustar o angulo da asa traseira do carro em zonas predeterminadas da pista. Quando ativado, a asa traseira se abre, reduzindo significativamente o arrasto aerodinamico e aumentando a velocidade em reta em aproximadamente 10-12 km/h. O DRS so pode ser ativado quando o piloto estiver a menos de um segundo do carro a sua frente no ponto de deteccao designado. O sistema e desativado automaticamente quando o piloto freia. O DRS esta proibido nas primeiras duas voltas apos o inicio da corrida ou apos o reinicio do Safety Car, exceto em condicoes especiais determinadas pela Race Control."
+  },
+  {
+    "id": "safety-car-procedures",
+    "title": "Safety Car - Procedimentos Oficiais",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 49-55",
+    "tags": ["safety car", "neutralizacao", "acidente", "procedimento", "regras"],
+    "text": "O Safety Car e acionado pela Race Control sempre que houver perigo iminente na pista, como acidentes, condicoes meteorologicas adversas ou detritos. Quando o Safety Car entra na pista, todas as ultrapassagens ficam estritamente proibidas. Os carros devem se agrupar em fila indiana atras do Safety Car, mantendo a ordem de classificacao. O Safety Car permanece na pista ate que a Race Control determine que a pista esta segura. Quando o Safety Car esta prestes a retornar aos boxes, acende-se uma luz verde em seu teto. Os carros lideres nao podem ultrapassar o Safety Car ate que ele tenha deixado a pista. O periodo de Safety Car pode drasticamente alterar as estrategias de pit stop, pois os carros perdem menos tempo nas paradas quando todos estao em velocidade reduzida."
+  },
+  {
+    "id": "virtual-safety-car",
+    "title": "Virtual Safety Car (VSC)",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 50",
+    "tags": ["vsc", "virtual safety car", "neutralizacao", "delta"],
+    "text": "O Virtual Safety Car (VSC) e ativado quando ha um incidente na pista que exige atencao, mas nao e grave o suficiente para justificar a entrada do Safety Car fisico. Durante o VSC, todos os pilotos devem reduzir a velocidade e manter um delta de tempo minimo determinado pelo sistema de cronometragem oficial. O delta e calculado com base no tempo que o carro levaria para percorrer cada sector da pista em condicoes normais, acrescido de uma margem de seguranca. Os pilotos devem manter a distancia relativa entre os carros. Ultrappassagens sao proibidas durante o VSC. Quando o VSC e encerrado, os pilotos sao notificados e a corrida retorna ao ritmo normal."
+  },
+  {
+    "id": "pit-stop-strategy",
+    "title": "Estrategias de Pit Stop - Undercut e Overcut",
+    "source": "FIA Formula 1 Sporting Regulations / Analise Estrategica",
+    "tags": ["undercut", "overcut", "pit stop", "estrategia", "pneus"],
+    "text": "O undercut e uma estrategia onde um piloto entra nos boxes antes de seu rival direto, coloca pneus novos e aproveita a vantagem de grip fresco para fazer voltas rapidas enquanto o rival ainda esta na pista com pneus gastos. Quando o rival faz seu pit stop posteriormente, o piloto que fez o undercut pode ja ter ganhado posicao. O overcut e a estrategia oposta: o piloto permanece na pista por mais tempo, tentando manter ritmo competitivo com pneus velhos ou aproveitando o trafego do rival, e so entao entra nos boxes. A escolha entre undercut e overcut depende de fatores como degradacao dos pneus, trafego, caracteristicas da pista e janela de parada ideal. Em pistas onde ultrapassar e dificil, o undercut tende a ser mais efetivo."
+  },
+  {
+    "id": "penalty-system",
+    "title": "Sistema de Penalidades na Formula 1",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 38-39",
+    "tags": ["penalidade", "5 segundos", "10 segundos", "punicao", "steward"],
+    "text": "Os comissarios (stewards) podem aplicar diversos tipos de penalidades por infracoes as regras. A penalidade de 5 segundos e comum para infracoes como causar colisao, ultrapassar fora dos limites da pista com vantagem, ou procedimento irregular no pit lane. A penalidade de 10 segundos e aplicada para infracoes mais graves. Essas penalidades podem ser cumpridas durante o proximo pit stop (adicionadas ao tempo de parada) ou somadas ao tempo total da corrida se nao houver mais paradas. Alem das penalidades de tempo, existem: drive-through (o piloto deve passar pelo pit lane sem parar), stop-and-go (10 segundos parado no pit lane), grid penalties (perda de posicoes no grid de largada para a proxima corrida), e advertencias formais. O sistema de pontos na superlicenca tambem e afetado: infracoes graves podem resultar em pontos na licenca do piloto."
+  },
+  {
+    "id": "parc-ferme-rules",
+    "title": "Parc Ferme - Regras de Modificacao",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 40",
+    "tags": ["parc ferme", "classificacao", "setup", "modificacao", "regulamento"],
+    "text": "O periodo de Parc Ferme comeca quando o carro entra na pista para a primeira sessao de classificacao (Q1) e termina quando o carro deixa o grid para a volta de formacao da corrida. Durante o Parc Ferme, as modificacoes no carro ficam extremamente restritas. E permitido apenas ajustar componentes que podem ser acessados sem ferramentas, como o volante, o assento, e os espelhos retrovisores. A suspensao, geometria do carro, asas, e a maioria dos componentes aerodinamicos nao podem ser alterados. Se uma equipe precisar trocar um componente por razoes de seguranca ou confiabilidade, deve solicitar permissao aos comissarios e a troca pode resultar em penalidade de grid. O objetivo do Parc Ferme e garantir que os carros que competem na corrida sejam substancialmente os mesmos que foram classificados, protegendo a integridade esportiva."
+  },
+  {
+    "id": "tyre-compounds",
+    "title": "Compostos de Pneus e Regras de Uso",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 24 / Pirelli Technical Briefing",
+    "tags": ["pneus", "compostos", "macio", "medio", "duro", "degradacao"],
+    "text": "A Pirelli fornece tres compostos de pneus de pista seca por evento: macio (soft), medio (medium) e duro (hard). O composto macio oferece maior grip e velocidade, mas degrada mais rapidamente, exigindo mais paradas. O composto duro e mais duravel, com menor degradacao, mas oferece menos grip inicial. O composto medio e o equilibrio entre os dois. Durante a corrida, cada piloto deve usar pelo menos dois compostos diferentes de pneus de pista seca, a menos que a corrida seja realizada inteiramente com pneus de chuva (intermediario ou chuva). Na classificacao, os pilotos que avancam para a Q3 devem iniciar a corrida com os pneus usados na volta mais rapida da Q2. Os stint sao os trechos de corrida entre duas paradas nos boxes. A gestao dos stint e crucial para a estrategia, pois a degradacao dos pneus afeta o ritmo de volta e a necessidade de paradas."
+  },
+  {
+    "id": "qualifying-format",
+    "title": "Formato de Classificacao (Qualifying)",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 33",
+    "tags": ["classificacao", "qualifying", "q1", "q2", "q3", "grid"],
+    "text": "O formato de classificacao e composto por tres fases: Q1, Q2 e Q3. Na Q1, todos os 20 carros participam por 18 minutos. Os cinco carros mais lentos sao eliminados e ocupam as posicoes 16 a 20 no grid. Na Q2, os 15 carros restantes disputam por 15 minutos. Mais cinco carros sao eliminados, ocupando as posicoes 11 a 15. Os 10 carros restantes avancam para a Q3, que dura 12 minutos. A ordem de classificacao final determina o grid de largada para a corrida. Em caso de violacao de track limits durante a classificacao, o tempo da volta e deletado. A pole position e conquistada pelo piloto com a volta mais rapida na Q3."
+  },
+  {
+    "id": "blue-flag-rules",
+    "title": "Bandeira Azul - Regras de Sinalizacao",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 37.4",
+    "tags": ["bandeira azul", "ultrapassagem", "laps", "regras"],
+    "text": "A bandeira azul e mostrada a um piloto quando um carro mais rapido esta prestes a ultrapassa-lo e o piloto esta sendo lapping (sendo passado em volta). O piloto que recebe a bandeira azul deve ceder a passagem o mais rapido possivel, sem atrapalhar o carro que esta tentando ultrapassa-lo. A desobediencia repetida as bandeiras azuis pode resultar em penalidade de tempo. Os comissarios monitoram as situacoes de bandeira azul e podem penalizar pilotos que deliberadamente impedem a passagem de um carro mais rapido."
+  },
+  {
+    "id": "race-start-procedures",
+    "title": "Procedimentos de Largada",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 36",
+    "tags": ["largada", "start", "grid", "formacao", "procedimento"],
+    "text": "Antes da largada, os carros saem do pit lane para uma volta de formacao (formation lap), onde os pilotos aquecem os pneus e verificam os sistemas do carro. Na volta de formacao, ultrapassagens sao proibidas, exceto se um carro tiver parado no grid e precisar ser ultrapassado. Ao retornarem ao grid, os carros devem parar em suas posicoes designadas. Quando todos os carros estao posicionados, acendem-se as luzes de largada. A sequencia e: 5 segundos com todas as luzes vermelhas acesas, seguidas por apagamento simultaneo das luzes, que marca o inicio da corrida. Se um piloto tiver um problema mecanico na volta de formacao, ele pode ser colocado nos boxes. Jump starts (largadas antecipadas) sao detectadas por sensores no grid e podem resultar em penalidade de drive-through ou stop-and-go."
+  },
+  {
+    "id": "point-system",
+    "title": "Sistema de Pontuacao do Campeonato",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 6",
+    "tags": ["pontos", "campeonato", "classificacao", "pilotos", "construtores"],
+    "text": "O sistema de pontuacao da Formula 1 atribui pontos aos primeiros 10 classificados em cada corrida. A distribuicao e: 1o lugar - 25 pontos, 2o lugar - 18 pontos, 3o lugar - 15 pontos, 4o lugar - 12 pontos, 5o lugar - 10 pontos, 6o lugar - 8 pontos, 7o lugar - 6 pontos, 8o lugar - 4 pontos, 9o lugar - 2 pontos, 10o lugar - 1 ponto. Pontos extras sao concedidos ao piloto que fizer a volta mais rapida da corrida, desde que termine entre os 10 primeiros. Os pontos contam tanto para o Campeonato de Pilotos quanto para o Campeonato de Construtores. Em caso de empate no final da temporada, o desempate e feito pelo numero de vitorias, seguido por segundos lugares, terceiros lugares, e assim por diante. Se a corrida for encerrada antes de 75% da distancia total, metade dos pontos e atribuida. Se menos de duas voltas forem completadas, nenhum ponto e concedido."
+  },
+  {
+    "id": "red-flag-procedures",
+    "title": "Bandeira Vermelha - Procedimentos",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 51",
+    "tags": ["bandeira vermelha", "red flag", "suspensao", "regras"],
+    "text": "A bandeira vermelha e acionada quando a pista esta bloqueada ou quando as condicoes sao consideradas perigosas demais para continuar a corrida. Quando a bandeira vermelha e exibida, todos os carros devem reduzir a velocidade significativamente e retornar ao pit lane na ordem em que estavam na pista. A ordem e determinada pelo ultimo ponto de cronometragem em que cada carro passou. Durante a suspensao, as equipes podem trabalhar nos carros nos boxes, mas com restricoes (por exemplo, nao podem trocar o chassis). Se a corrida for reiniciada, ela comeca com uma nova volta de formacao. O relogio da corrida para durante a bandeira vermelha. A decisao de reiniciar ou encerrar a corrida e tomada pela Race Control em consulta com os comissarios."
+  },
+  {
+    "id": "drs-detection-zones",
+    "title": "Zonas de Deteccao do DRS",
+    "source": "FIA Formula 1 Technical Regulations / Race Director Notes",
+    "tags": ["drs", "zona de deteccao", "ultrapassagem", "distancia"],
+    "text": "Cada circuito da Formula 1 possui zonas de deteccao e zonas de ativacao do DRS. A zona de deteccao e um ponto especifico na pista onde o sistema mede a distancia entre dois carros consecutivos. Se o carro de tras estiver a menos de 1,0 segundo do carro da frente no momento em que ambos cruzam a zona de deteccao, o piloto de tras recebe autorizacao para usar o DRS na(s) proxima(s) zona(s) de ativacao. As zonas de deteccao e ativacao sao definidas pelo Diretor de Corrida (Race Director) em notas especificas para cada evento. O numero de zonas de DRS varia por circuito, geralmente entre 1 e 3 zonas. O DRS e desabilitado automaticamente em condicoes de chuva ou quando o Safety Car ou Virtual Safety Car esta em operacao."
+  },
+  {
+    "id": "fuel-flow-limits",
+    "title": "Limites de Fluxo de Combustivel e Consumo",
+    "source": "FIA Formula 1 Technical Regulations, Art. 5.1.4",
+    "tags": ["combustivel", "fluxo", "consumo", "restricao", "regulamento"],
+    "text": "Os carros de Formula 1 possuem um limite maximo de fluxo de combustivel de 100 kg/h (quilogramas por hora). Este limite e monitorado por um sensor de fluxo homologado pela FIA. Alem do limite de fluxo, a quantidade total de combustivel utilizada durante a corrida nao pode exceder 110 kg. As equipes devem equilibrar o consumo de combustivel com o peso do carro, pois combustivel adicional aumenta o peso e reduz o desempenho. A estrategia de consumo de combustivel e gerenciada pelo engenheiro de corrida, que fornece instrucoes ao piloto sobre quando economizar combustivel e quando usar o maximo de potencia. O monitoramento do fluxo de combustivel e realizado em tempo real pela FIA para garantir conformidade."
+  },
+  {
+    "id": "ers-hybrid-system",
+    "title": "ERS - Sistema de Recuperacao de Energia",
+    "source": "FIA Formula 1 Technical Regulations, Art. 5.2",
+    "tags": ["ers", "hibrido", "motor", "energia", "mguk", "mguh", "potencia"],
+    "text": "O ERS (Energy Recovery System) e o sistema hibrido dos carros de Formula 1 modernos. Ele e composto por duas unidades geradoras: o MGU-K (Motor Generator Unit-Kinetic), que recupera energia cinética durante a frenagem, e o MGU-H (Motor Generator Unit-Heat), que recupera energia termica dos gases de escape. A energia recuperada e armazenada em baterias de alta capacidade e pode ser liberada para dar um impulso extra de potencia de ate 160 cv durante ate 33 segundos por volta. O uso estrategico do ERS e fundamental para ultrapassagens e defesa de posicao. A gestao eletronica do ERS e controlada por software desenvolvido por cada equipe, sendo uma area chave de desenvolvimento tecnologico."
+  },
+  {
+    "id": "halo-safety-device",
+    "title": "Halo - Dispositivo de Protecao do Cockpit",
+    "source": "FIA Formula 1 Technical Regulations, Art. 15 / Safety Mandate 2018",
+    "tags": ["halo", "seguranca", "cockpit", "protecao", "acidente"],
+    "text": "O Halo e um dispositivo de protecao obrigatorio montado acima do cockpit dos carros de Formula 1 desde 2018. Ele consiste em uma estrutura em forma de Y feita de fibra de carbono e titanio, projetada para proteger a cabeca do piloto de detritos, pneus e outros objetos em caso de acidente. O Halo suporta o peso equivalente a um onibus de dois andares (aproximadamente 12 toneladas) e e capaz de desviar objetos a alta velocidade. Foi introduzido apos anos de testes e debate, e desde entao provou sua eficacia em diversos acidentes graves, incluindo o incidente de Romain Grosjean no Bahrain 2020 e o acidente de Lewis Hamilton e Max Verstappen em Monza 2021."
+  },
+  {
+    "id": "sprint-race-format",
+    "title": "Sprint Races - Formato de Corrida Curta",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 33.4 / Sprint Event Appendix",
+    "tags": ["sprint", "corrida curta", "formato", "sabado", "pontos"],
+    "text": "As Sprint Races sao corridas curtas realizadas em alguns fins de semana de Grande Premio desde 2021. O formato Sprint altera o programa tradicional: na sexta-feira ocorre o unico treino livre e a classificacao para a Sprint (Sprint Qualifying). No sabado, acontece a Sprint Race (cerca de 100 km, aproximadamente um terco da distancia de uma corrida normal). A ordem de chegada da Sprint Race define o grid de largada para a corrida principal no domingo. Os primeiros oito colocados na Sprint recebem pontos: 8, 7, 6, 5, 4, 3, 2, 1. O formato foi introduzido para aumentar a acao no fim de semana e testar diferentes formatos de evento."
+  },
+  {
+    "id": "budget-cap",
+    "title": "Budget Cap - Teto Orcamentario das Equipes",
+    "source": "FIA Formula 1 Financial Regulations, Art. 1-10",
+    "tags": ["budget cap", "teto orcamentario", "dinheiro", "custos", "equipes"],
+    "text": "O Budget Cap (Teto Orcamentario) foi introduzido na Formula 1 em 2021 para criar um campo de jogo mais nivelado entre as equipes. O limite de gastos para a temporada 2024 e de 135 milhoes de dolares por equipe, excluindo salarios de pilotos, salarios dos tres executivos mais bem pagos, custos de marketing, custos de viagem e algumas areas de pesquisa e desenvolvimento. A FIA realiza auditorias rigorosas para garantir conformidade. Equipes que excederem o teto orcamentario podem enfrentar penalidades severas, incluindo deducao de pontos no campeonato, limitacao de tempo no tunel de vento e ate exclusao do campeonato. O objetivo e reduzir a vantagem financeira das equipes maiores e tornar a competicao mais equilibrada."
+  },
+  {
+    "id": "power-unit-penalties",
+    "title": "Penalidades de Unidade de Potencia (Motor)",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 23.5 / Technical Regulations Art. 5",
+    "tags": ["penalidade", "motor", "power unit", "grid", "componentes"],
+    "text": "Cada piloto tem direito a usar um numero limitado de componentes da unidade de potencia durante a temporada. Os componentes incluem: motor de combustao interna (ICE), turbocompressor (TC), MGU-H, MGU-K, bateria (ES) e unidade de controle eletronico (CE). Para a temporada 2024, o limite e de 3 unidades de cada componente durante todo o campeonato. Se um piloto usar mais componentes do que o permitido, recebe penalidades de grid. A penalidade padrao e de 10 posicoes no grid para o primeiro componente extra, e 5 posicoes para cada componente adicional. Em casos extremos, um piloto pode receber penalidades tao grandes que e obrigado a largar do pit lane (grid penalty que excede o numero de carros no grid)."
+  },
+  {
+    "id": "pit-lane-rules",
+    "title": "Regras do Pit Lane - Velocidade e Procedimentos",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 28-31",
+    "tags": ["pit lane", "velocidade", "boxes", "mecanicos", "seguranca"],
+    "text": "O Pit Lane e a via que conecta a pista aos boxes das equipes. Existe um limite estrito de velocidade no Pit Lane, geralmente de 80 km/h (em alguns circuitos, 60 km/h por razoes de seguranca). A velocidade e monitorada por sensores e infracoes resultam em penalidades automaticas. Durante as paradas nos boxes, um maximo de 22 mecanicos pode trabalhar no carro simultaneamente. A troca de pneus deve ser realizada com ferramentas especificas e homologadas. E proibido tocar no carro enquanto ele esta sendo abastecido (regra de seguranca contra incendio). Os carros so podem entrar no Pit Lane da pista, nunca da area de boxes. Durante o Safety Car, carros que entram nos boxes devem respeitar o delta de tempo."
+  },
+  {
+    "id": "yellow-flag-rules",
+    "title": "Bandeira Amarela - Procedimentos de Aviso",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 37.2",
+    "tags": ["bandeira amarela", "cuidado", "acidente", "advertencia", "regras"],
+    "text": "A bandeira amarela e mostrada quando ha perigo na pista, como um acidente, carro parado ou detritos. Quando uma bandeira amarela e acionada, os pilotos devem reduzir a velocidade e estao proibidos de ultrapassar. Existem dois tipos: bandeira amarela dupla (double yellow), indicando perigo significativo que pode bloquear a pista, exigindo grande reducao de velocidade e possivelmente parada; e bandeira amarela simples, indicando perigo menor. Se os comissarios determinarem que um piloto nao reduziu velocidade suficiente em zona de bandeira amarela, podem aplicar penalidades. Durante a qualificacao, se uma bandeira amarela estiver sendo acionada em um setor, os pilotos que completarem uma volta rapida nesse setor podem ter seus tempos cancelados."
+  },
+  {
+    "id": "black-white-flag",
+    "title": "Bandeira Preta e Branca - Advertencia por Conduta",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 37.10",
+    "tags": ["bandeira preta", "bandeira branca", "advertencia", "conduta", "regras"],
+    "text": "A bandeira preta com um circulo branco e uma advertencia formal sobre a conduta de um piloto. E mostrada uma vez por comportamento antidesportivo ou conduta perigosa. Se o piloto continuar com o mesmo comportamento apos receber a bandeira preta e branca, pode receber uma bandeira preta, que significa desqualificacao imediata da corrida. A bandeira preta e branca e um aviso do tipo 'ultima chance' antes de uma penalidade mais severa. Foi reintroduzida na Formula 1 em 2019 para dar aos comissarios uma ferramenta intermediaria entre advertencia verbal e penalidade de tempo."
+  },
+  {
+    "id": "wet-weather-tyres",
+    "title": "Pneus de Chuva - Intermediario e Full Wet",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 24.4 / Pirelli Technical Briefing",
+    "tags": ["pneus", "chuva", "intermediario", "wet", "pista molhada", "aquaplanagem"],
+    "text": "A Pirelli fornece dois tipos de pneus para condicoes de chuva: o intermediario (green, faixa verde) e o full wet (blue, faixa azul). O intermediario e projetado para pistas levemente molhadas ou secando, com sulcos que evacuam agua e proporcionam aquecimento do pneu. O full wet e para condicoes de chuva forte, com sulcos profundos que evacuam ate 65 litros de agua por segundo a 300 km/h. A troca de pneus de chuva e critica: se a pista estiver secando, os pneus de chuva podem superaquecer e degradar rapidamente. O inverso tambem e perigoso: pneus de pista seca em pista molhada causam aquaplanagem (hidroplaning), onde o pneu perde contato com a pista e flutua sobre a agua. O Regulamento exige que cada piloto tenha um numero limitado de jogos de pneus de chuva por fim de semana."
+  },
+  {
+    "id": "overtaking-rules",
+    "title": "Regras de Ultrapassagem e Defesa de Posicao",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 33.4 / Appendix L",
+    "tags": ["ultrapassagem", "defesa", "posicao", "regras", "manobra"],
+    "text": "Para uma ultrapassagem ser considerada valida, o carro que ataca deve estar significativamente ao lado do carro da frente antes de chegar ao ponto de frenagem da curva. Se a parte frontal do carro atacante estiver alinhada com a parte traseira do carro defensor, o defensor deve deixar espaco suficiente (pelo menos a largura de um carro). E proibido fazer mais de uma mudanca de direcao para defender uma posicao; o defensor pode mudar de linha uma vez para defender, mas depois deve manter a trajetoria. E proibido empurrar um rival fora da pista em curvas. Se um carro ultrapassar fora dos limites da pista, deve devolver a posicao imediatamente ou pode ser penalizado. O carro que foi ultrapassado nao pode tentar reconquistar a posicao antes do ponto de ultrapassagem seguinte (regra de nao recorte)."
+  },
+  {
+    "id": "formation-lap",
+    "title": "Volta de Formacao - Procedimentos Pre-Largada",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 36.3",
+    "tags": ["volta de formacao", "formation lap", "largada", "grid", "procedimento"],
+    "text": "A volta de formacao (formation lap) e a volta realizada antes da largada da corrida, onde os carros saem do grid, percorrem uma volta completa e retornam as suas posicoes de largada. Durante esta volta, os pilotos aquecem os pneus e os freios a temperatura ideal, verificam os sistemas do carro e preparam a embreagem. Ultrapassagens sao estritamente proibidas durante a volta de formacao, exceto se um carro tiver parado no grid e precisar ser passado. Se um carro tiver um problema mecanico e nao conseguir completar a volta de formacao, pode ser autorizado a largar dos boxes. O grid de largada final e determinado pela ordem em que os carros retornam as suas posicoes apos a volta de formacao."
+  },
+  {
+    "id": "medical-car",
+    "title": "Medical Car - Carro Medico de Intervencao",
+    "source": "FIA Formula 1 Sporting Regulations, Art. 14.3 / Medical Delegate Procedures",
+    "tags": ["medical car", "medico", "seguranca", "intervencao", "emergencia"],
+    "text": "O Medical Car (carro medico) e um veiculo de alta performance, geralmente um Mercedes-AMG ou Aston Martin, equipado com equipamentos medicos avancados e tripulado por um medico especializado (o FIA Medical Delegate). Ele segue os carros nas duas primeiras voltas de cada corrida e fica em standby durante toda a sessao. Em caso de acidente grave, o Medical Car pode ser enviado imediatamente para o local para prestar atendimento medico de emergencia. O Medical Car foi fundamental em diversos acidentes graves, como o de Romain Grosjean no GP do Bahrain 2020, onde o Dr. Ian Roberts e o extricador Alan van der Merwe foram os primeiros a chegar ao local e ajudar na evacuacao de Grosjean do carro em chamas."
+  },
+  {
+    "id": "concorde-agreement",
+    "title": "Concorde Agreement - Acordo entre Equipes e FIA",
+    "source": "FIA/FOM Commercial Agreement (2021-2025)",
+    "tags": ["concorde", "acordo", "comercial", "equipes", "fia", "fom", "reparticao"],
+    "text": "O Concorde Agreement e o acordo comercial vinculante entre a FIA (Federacao Internacional de Automobilismo), a FOM (Formula One Management, detentora dos direitos comerciais) e as equipes participantes da Formula 1. Ele define as regras de governanca, a distribuicao de receitas comerciais, o processo de aprovacao de mudancas regulamentares e as obrigacoes das equipes. O acordo vigente (assinado em 2020, valido ate 2025) introduziu mecanismos para reduzir as diferencas financeiras entre equipes, incluindo uma distribuicao mais equitativa dos premios e o teto orcamentario (Budget Cap). As equipes que nao assinam o Concorde Agreement nao podem participar do campeonato mundial de Formula 1."
+  },
+  {
+    "id": "drag-aerodynamics",
+    "title": "Arrasto Aerodinamico e Downforce",
+    "source": "FIA Formula 1 Technical Regulations, Art. 3 / Aerodynamic Appendix",
+    "tags": ["arrasto", "aerodinamica", "downforce", "asa", "resistencia", "velocidade"],
+    "text": "O arrasto aerodinamico (drag) e a resistencia que o ar exerce sobre o carro em movimento. Ao mesmo tempo, a downforce e a forca vertical gerada pela aerodinamica que pressiona o carro contra a pista, aumentando a aderencia e permitindo curvas mais rapidas. Existe um compromisso natural entre downforce e arrasto: mais downforce geralmente significa mais arrasto, o que reduz a velocidade em reta. As equipes ajustam essa relacao dependendo do circuito: pistas com muitas curvas (como Monaco ou Hungria) exigem configuracoes de alta downforce, enquanto pistas com longas retas (como Monza ou Spa) usam configuracoes de baixo arrasto. O DRS existe justamente para reduzir temporariamente o arrasto em retas, permitindo ultrapassagens. O regulamento tecnico limita areas de desenvolvimento aerodinamico para controlar custos e promover ultrapassagens."
+  }
+]

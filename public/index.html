@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Assistente F1 | Chat</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div id="app" class="shell" v-cloak>
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">F1</div>
+          <div>
+            <strong>Assistente F1</strong>
+            <span>Sistemas Distribuidos</span>
+          </div>
+        </div>
+
+        <div class="status-card">
+          <div class="status-row">
+            <span>Gateway</span>
+            <strong :class="{ online: health.ok }">{{ health.ok ? "online" : "checando" }}</strong>
+          </div>
+          <div class="status-row">
+            <span>Modo</span>
+            <strong>{{ architectureMode }}</strong>
+          </div>
+          <div class="status-row">
+            <span>API externa</span>
+            <strong :class="{ online: externalApiOnline }">{{ externalApiLabel }}</strong>
+          </div>
+        </div>
+
+        <div class="quick-list">
+          <button
+            v-for="prompt in prompts"
+            :key="prompt"
+            type="button"
+            class="quick-prompt"
+            @click="usePrompt(prompt)"
+          >
+            {{ prompt }}
+          </button>
+        </div>
+      </aside>
+
+      <main class="chat">
+        <header class="chat-header">
+          <div class="avatar">AI</div>
+          <div>
+            <h1>Consultor de regras da F1</h1>
+            <p>{{ headerSubtitle }}</p>
+          </div>
+        </header>
+
+        <section ref="messageList" class="messages" aria-live="polite">
+          <article
+            v-for="message in messages"
+            :key="message.id"
+            class="message"
+            :class="message.role"
+          >
+            <div class="bubble">
+              <div v-if="message.loading" class="typing">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <p v-else>{{ message.content }}</p>
+            </div>
+
+            <details v-if="message.meta && !message.loading" class="message-meta">
+              <summary>{{ message.meta.summary }}</summary>
+              <div class="meta-grid">
+                <div>
+                  <strong>Fontes</strong>
+                  <span v-for="source in message.meta.sources" :key="source.id">
+                    {{ source.title }}
+                  </span>
+                </div>
+                <div>
+                  <strong>Servicos</strong>
+                  <span v-for="step in message.meta.flow" :key="step">
+                    {{ step }}
+                  </span>
+                </div>
+                <div>
+                  <strong>Componente externo</strong>
+                  <span>{{ message.meta.external }}</span>
+                </div>
+              </div>
+            </details>
+          </article>
+        </section>
+
+        <form class="composer" @submit.prevent="sendMessage">
+          <textarea
+            ref="composer"
+            v-model="draft"
+            rows="1"
+            placeholder="Pergunte sobre penalidades, DRS, safety car, pneus..."
+            @keydown.enter.exact.prevent="sendMessage"
+          ></textarea>
+          <button type="submit" :disabled="sending || !draft.trim()" aria-label="Enviar pergunta">
+            <span>&gt;</span>
+          </button>
+        </form>
+      </main>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

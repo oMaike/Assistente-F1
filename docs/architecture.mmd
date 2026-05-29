@@ -1,0 +1,27 @@
+flowchart LR
+  U[Usuario] --> F[Front Web]
+  F --> G[Gateway Service :3000]
+  G --> C[Orchestrator Service :3001]
+  C --> K[Knowledge Base Service :3002]
+  C --> E[External API Service :3003 MCP Server]
+  C --> X[Explanation Service :3004]
+  K --> C
+  E --> C
+  X --> C
+  C --> G
+  G --> F
+  F --> U
+
+  subgraph RAG
+    K --> V[Vector Store]
+    V --> M[all-MiniLM-L6-v2]
+    M --> D[Documentos F1]
+  end
+
+  subgraph MCP
+    E --> T[Tools RapidAPI F1]
+  end
+
+  subgraph LLM
+    X --> L[Groq API llama3-70b]
+  end
