@@ -102,6 +102,46 @@ textarea {
   border-radius: 16px;
 }
 
+.maintenance-card {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  background: linear-gradient(180deg, #101010, #090909);
+  border: 1px solid rgba(225, 6, 0, 0.24);
+  border-radius: 16px;
+}
+
+.maintenance-card strong,
+.maintenance-card span {
+  display: block;
+}
+
+.maintenance-card strong {
+  font-size: 13px;
+}
+
+.maintenance-card span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.maintenance-button {
+  border: 0;
+  border-radius: 12px;
+  padding: 11px 12px;
+  background: linear-gradient(135deg, var(--red), #990000);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.maintenance-button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
 .status-row {
   display: flex;
   justify-content: space-between;

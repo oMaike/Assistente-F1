@@ -11,7 +11,7 @@ const server = createServer(async (req, res) => {
     sendJson(res, 200, {
       ok: true,
       service: "explanation-service",
-      phase: "fase-2",
+      phase: "fase-3",
       role: "Compoe respostas com LLM (Groq) usando contexto RAG e dados MCP.",
       llmConfigured: Boolean(config.llm?.apiKey),
     });
@@ -64,7 +64,7 @@ async function composeAnswer({ question, intent, knowledgeResults, mcpToolResult
     return {
       intent: intent.label,
       answer: completion.content.trim(),
-      composer: "fase2-llm-groq",
+      composer: "fase3-llm-groq",
       model: completion.model,
       usage: completion.usage,
     };
@@ -168,7 +168,7 @@ function fallbackComposer({ question, intent, knowledgeResults, mcpToolResults }
   return {
     intent: intent.label,
     answer,
-    composer: "fase2-fallback-template",
+    composer: "fase3-fallback-template",
     model: null,
     usage: null,
   };

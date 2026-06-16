@@ -1,23 +1,31 @@
 import { createServer } from "node:http";
 
 import { config } from "../config.js";
-import { sendError, sendJson } from "../utils/http.js";
+import { readJsonBody, sendError, sendJson } from "../utils/http.js";
 import { handleMcpSse, handleMcpMessage, getActiveSessionCount } from "../mcp/mcpServer.js";
+import {
+  commitCacheSnapshot,
+  getCacheSnapshotState,
+  rollbackCacheSnapshot,
+  stageCacheSnapshot,
+} from "../mcp/f1Tools.js";
 
 const server = createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
 
   if (req.method === "GET" && url.pathname === "/health") {
+    const cacheState = await getCacheSnapshotState();
     sendJson(res, 200, {
       ok: true,
       service: "external-api-service",
-      phase: "fase-2",
+      phase: "fase-3",
       role: "MCP Server com ferramentas RapidAPI F1. Exposicao de ferramentas via Model Context Protocol.",
       provider: "RapidAPI F1 Live Pulse",
       keyConfigured: Boolean(config.rapidApi.key),
       liveCallsEnabled: Boolean(config.rapidApi.key) && Boolean(config.rapidApi.endpoints.driverStandings),
       mcpSessions: getActiveSessionCount(),
       mcpEndpoint: "/mcp/sse",
+      cacheState,
     });
     return;
   }
@@ -26,7 +34,7 @@ const server = createServer(async (req, res) => {
     sendJson(res, 200, {
       ok: true,
       service: "external-api-service",
-      phase: "fase-2",
+      phase: "fase-3",
       role: "MCP Server com ferramentas RapidAPI F1.",
       provider: "RapidAPI F1 Live Pulse",
       keyConfigured: Boolean(config.rapidApi.key),
@@ -39,6 +47,42 @@ const server = createServer(async (req, res) => {
         "get_session_info",
       ],
     });
+    return;
+  }
+
+  if (req.method === "POST" && url.pathname === "/saga/cache/start") {
+    try {
+      const body = await readJsonBody(req);
+      const sagaId = String(body.sagaId || crypto.randomUUID());
+      const result = await stageCacheSnapshot(sagaId);
+      sendJson(res, 200, { ok: true, service: "external-api-service", result });
+    } catch (error) {
+      sendError(res, error.statusCode || 500, error.message);
+    }
+    return;
+  }
+
+  if (req.method === "POST" && url.pathname === "/saga/cache/commit") {
+    try {
+      const body = await readJsonBody(req);
+      const sagaId = String(body.sagaId || "");
+      const result = await commitCacheSnapshot(sagaId);
+      sendJson(res, 200, { ok: true, service: "external-api-service", result });
+    } catch (error) {
+      sendError(res, error.statusCode || 500, error.message);
+    }
+    return;
+  }
+
+  if (req.method === "POST" && url.pathname === "/saga/cache/rollback") {
+    try {
+      const body = await readJsonBody(req);
+      const sagaId = String(body.sagaId || "");
+      const result = await rollbackCacheSnapshot(sagaId, { restoreActive: Boolean(body.restoreActive) });
+      sendJson(res, 200, { ok: true, service: "external-api-service", result });
+    } catch (error) {
+      sendError(res, error.statusCode || 500, error.message);
+    }
     return;
   }
 

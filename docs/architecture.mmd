@@ -12,14 +12,27 @@ flowchart LR
   G --> F
   F --> U
 
+  subgraph SAGA[Maintenance Saga]
+    S1[Start Reindex]
+    S2[Start Cache Snapshot]
+    S3[Commit or Rollback]
+  end
+
+  C -. inicia .-> S1
+  C -. inicia .-> S2
+  S1 -. publica/compensa .-> K
+  S2 -. publica/compensa .-> E
+  S1 -. valida .-> S3
+  S2 -. valida .-> S3
+
   subgraph RAG
-    K --> V[Vector Store]
+    K --> V[Vector Store Snapshot]
     V --> M[all-MiniLM-L6-v2]
-    M --> D[Documentos F1]
+    M --> D[Documentos F1 chunked]
   end
 
   subgraph MCP
-    E --> T[Tools RapidAPI F1]
+    E --> T[Tools RapidAPI F1 + cache snapshot]
   end
 
   subgraph LLM

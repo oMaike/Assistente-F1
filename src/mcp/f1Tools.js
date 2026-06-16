@@ -1,5 +1,7 @@
-import { getJson } from "../utils/serviceClient.js";
+import { access, copyFile, readFile, rename, unlink, writeFile } from "node:fs/promises";
+
 import { config } from "../config.js";
+import { ensureRuntimeDir, runtimePaths } from "../utils/runtimePaths.js";
 
 // Dados de demonstracao para temporada 2026 (atualizados em maio/2026)
 const MOCK_DATA = {
@@ -65,6 +67,189 @@ async function rapidApiGet(endpoint) {
   }
 }
 
+const CACHE_TOOL_NAMES = [
+  "get_driver_standings",
+  "get_constructor_standings",
+  "get_race_control_messages",
+  "get_weather",
+  "get_session_info",
+];
+
+let activeCache = null;
+let pendingCache = null;
+
+async function loadActiveCache() {
+  if (activeCache) {
+    return activeCache;
+  }
+
+  try {
+    const raw = await readFile(runtimePaths.f1CacheActive, "utf8");
+    activeCache = JSON.parse(raw);
+  } catch {
+    activeCache = null;
+  }
+
+  return activeCache;
+}
+
+async function snapshotTool(name) {
+  switch (name) {
+    case "get_driver_standings": {
+      const live = await rapidApiGet(config.rapidApi.endpoints.driverStandings);
+      return live;
+    }
+    case "get_constructor_standings": {
+      const live = await rapidApiGet(config.rapidApi.endpoints.constructorStandings);
+      return live;
+    }
+    case "get_race_control_messages": {
+      const live = await rapidApiGet(config.rapidApi.endpoints.raceControl);
+      return live;
+    }
+    case "get_weather": {
+      const live = await rapidApiGet(config.rapidApi.endpoints.weather);
+      return live;
+    }
+    case "get_session_info": {
+      const live = await rapidApiGet(config.rapidApi.endpoints.sessionInfo);
+      return live;
+    }
+    default:
+      return null;
+  }
+}
+
+function demoToolData(name) {
+  const demoByTool = {
+    get_driver_standings: { standings: MOCK_DATA.driverStandings },
+    get_constructor_standings: { standings: MOCK_DATA.constructorStandings },
+    get_race_control_messages: { messages: MOCK_DATA.raceControlMessages },
+    get_weather: { weather: MOCK_DATA.weather },
+    get_session_info: { session: MOCK_DATA.sessionInfo },
+  };
+
+  return demoByTool[name] || null;
+}
+
+async function readCacheSnapshot() {
+  const cache = await loadActiveCache();
+  return cache?.tools || null;
+}
+
+async function resolveToolData(name) {
+  const live = await snapshotTool(name);
+  if (live) {
+    return { data: live, source: "live" };
+  }
+
+  const cacheTools = await readCacheSnapshot();
+  if (cacheTools?.[name]) {
+    return { data: cacheTools[name], source: "cache" };
+  }
+
+  return { data: demoToolData(name), source: "demo" };
+}
+
+async function buildCacheSnapshot(sagaId) {
+  const tools = {};
+  for (const toolName of CACHE_TOOL_NAMES) {
+    tools[toolName] = (await snapshotTool(toolName)) || demoToolData(toolName);
+  }
+
+  return {
+    sagaId,
+    source: "f1-cache-saga",
+    createdAt: new Date().toISOString(),
+    tools,
+  };
+}
+
+async function writeSnapshotFile(filePath, snapshot) {
+  await ensureRuntimeDir();
+  const tempPath = `${filePath}.tmp`;
+  await writeFile(tempPath, JSON.stringify(snapshot, null, 2), "utf8");
+  await rename(tempPath, filePath);
+}
+
+async function hasFile(filePath) {
+  try {
+    await access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function stageCacheSnapshot(sagaId) {
+  const snapshot = await buildCacheSnapshot(sagaId);
+  const stagingPath = runtimePaths.getF1CacheStaging(sagaId);
+  await writeSnapshotFile(stagingPath, snapshot);
+  pendingCache = {
+    sagaId,
+    status: "staged",
+    stagingPath,
+    createdAt: snapshot.createdAt,
+  };
+
+  return {
+    sagaId,
+    status: "staged",
+    stagingPath,
+    tools: Object.keys(snapshot.tools).length,
+  };
+}
+
+export async function commitCacheSnapshot(sagaId) {
+  if (!pendingCache || pendingCache.sagaId !== sagaId) {
+    throw new Error("Nao existe snapshot de cache em andamento para commit.");
+  }
+
+  const activePath = runtimePaths.f1CacheActive;
+  const backupPath = runtimePaths.f1CacheBackup;
+
+  if (await hasFile(activePath)) {
+    await copyFile(activePath, backupPath);
+  }
+
+  await rename(pendingCache.stagingPath, activePath);
+  activeCache = JSON.parse(await readFile(activePath, "utf8"));
+  pendingCache = null;
+
+  return {
+    sagaId,
+    status: "committed",
+    activePath,
+  };
+}
+
+export async function rollbackCacheSnapshot(sagaId, { restoreActive = false } = {}) {
+  const stagingPath = pendingCache?.stagingPath || runtimePaths.getF1CacheStaging(sagaId);
+
+  if (await hasFile(stagingPath)) {
+    await unlink(stagingPath);
+  }
+
+  if (restoreActive && await hasFile(runtimePaths.f1CacheBackup)) {
+    await copyFile(runtimePaths.f1CacheBackup, runtimePaths.f1CacheActive);
+    activeCache = JSON.parse(await readFile(runtimePaths.f1CacheActive, "utf8"));
+  }
+
+  pendingCache = null;
+  return {
+    sagaId,
+    status: restoreActive ? "restored" : "rolled-back",
+  };
+}
+
+export async function getCacheSnapshotState() {
+  await loadActiveCache();
+  return {
+    active: activeCache,
+    pending: pendingCache,
+  };
+}
+
 export const f1Tools = [
   {
     name: "get_driver_standings",
@@ -121,36 +306,13 @@ function wrapForLlm(data, isLive) {
 }
 
 export async function executeF1Tool(name) {
-  switch (name) {
-    case "get_driver_standings": {
-      const live = await rapidApiGet(config.rapidApi.endpoints.driverStandings);
-      const data = live || { standings: MOCK_DATA.driverStandings };
-      return wrapForLlm(data, Boolean(live));
-    }
-    case "get_constructor_standings": {
-      const live = await rapidApiGet(config.rapidApi.endpoints.constructorStandings);
-      const data = live || { standings: MOCK_DATA.constructorStandings };
-      return wrapForLlm(data, Boolean(live));
-    }
-    case "get_race_control_messages": {
-      const live = await rapidApiGet(config.rapidApi.endpoints.raceControl);
-      const data = live || { messages: MOCK_DATA.raceControlMessages };
-      return wrapForLlm(data, Boolean(live));
-    }
-    case "get_weather": {
-      const live = await rapidApiGet(config.rapidApi.endpoints.weather);
-      const data = live || { weather: MOCK_DATA.weather };
-      return wrapForLlm(data, Boolean(live));
-    }
-    case "get_session_info": {
-      const live = await rapidApiGet(config.rapidApi.endpoints.sessionInfo);
-      const data = live || { session: MOCK_DATA.sessionInfo };
-      return wrapForLlm(data, Boolean(live));
-    }
-    default:
-      return {
-        content: [{ type: "text", text: JSON.stringify({ error: `Ferramenta ${name} nao encontrada.` }) }],
-        isError: true,
-      };
+  if (!CACHE_TOOL_NAMES.includes(name)) {
+    return {
+      content: [{ type: "text", text: JSON.stringify({ error: `Ferramenta ${name} nao encontrada.` }) }],
+      isError: true,
+    };
   }
+
+  const resolved = await resolveToolData(name);
+  return wrapForLlm(resolved.data, resolved.source === "live");
 }

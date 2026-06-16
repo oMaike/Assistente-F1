@@ -22,19 +22,41 @@ const server = createServer(async (req, res) => {
     return;
   }
 
+  if (req.method === "GET" && url.pathname === "/api/saga/status") {
+    const saga = await getJson(`${orchestratorUrl}/saga/status`);
+    sendJson(res, 200, {
+      ok: true,
+      service: "gateway-service",
+      saga: saga.body,
+    });
+    return;
+  }
+
   if (req.method === "GET" && url.pathname === "/api/architecture") {
     sendJson(res, 200, {
       ok: true,
       mode: "distributed-microservices",
-      phase: "fase-2",
+      phase: "fase-3",
       services: [
         { name: "Gateway Service", port: config.services.gateway.port },
         { name: "Orchestrator Service", port: config.services.orchestrator.port },
         { name: "Knowledge Base Service (RAG)", port: config.services.knowledge.port },
         { name: "External API Service (MCP Server)", port: config.services.externalApi.port },
         { name: "Explanation Service (LLM)", port: config.services.explanation.port },
+        { name: "Saga Coordination", port: config.services.orchestrator.port },
       ],
     });
+    return;
+  }
+
+  if (req.method === "POST" && url.pathname === "/api/saga/reindex") {
+    try {
+      const body = await readJsonBody(req);
+      const result = await postJson(`${orchestratorUrl}/saga/reindex`, body || {}, { timeoutMs: 60000 });
+      sendJson(res, 200, result);
+    } catch (error) {
+      sendError(res, error.statusCode || 502, error.message);
+    }
     return;
   }
 

@@ -16,10 +16,12 @@ async function startServer() {
       sendJson(res, 200, {
         ok: true,
         service: "knowledge-base-service",
-        phase: "fase-2",
+        phase: "fase-3",
         role: "Base de conhecimento com RAG: documentos reais + busca vetorial por embeddings.",
-        documentsIndexed: knowledge.vectorStore.documents.length,
+        documentsIndexed: knowledge.documents.length,
+        chunksIndexed: knowledge.vectorStore.documents.length,
         searchType: "vector-embedding-cosine",
+        snapshot: knowledge.getHealthSnapshot(),
       });
       return;
     }
@@ -32,9 +34,45 @@ async function startServer() {
         sendJson(res, 200, {
           ok: true,
           service: "knowledge-base-service",
-          phase: "fase-2",
+          phase: "fase-3",
           results,
         });
+      } catch (error) {
+        sendError(res, error.statusCode || 500, error.message);
+      }
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/saga/reindex/start") {
+      try {
+        const body = await readJsonBody(req);
+        const sagaId = String(body.sagaId || crypto.randomUUID());
+        const result = await knowledge.stageSagaReindex(sagaId);
+        sendJson(res, 200, { ok: true, service: "knowledge-base-service", result });
+      } catch (error) {
+        sendError(res, error.statusCode || 500, error.message);
+      }
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/saga/reindex/commit") {
+      try {
+        const body = await readJsonBody(req);
+        const sagaId = String(body.sagaId || "");
+        const result = await knowledge.commitSagaReindex(sagaId);
+        sendJson(res, 200, { ok: true, service: "knowledge-base-service", result });
+      } catch (error) {
+        sendError(res, error.statusCode || 500, error.message);
+      }
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/saga/reindex/rollback") {
+      try {
+        const body = await readJsonBody(req);
+        const sagaId = String(body.sagaId || "");
+        const result = await knowledge.rollbackSagaReindex(sagaId, { restoreActive: Boolean(body.restoreActive) });
+        sendJson(res, 200, { ok: true, service: "knowledge-base-service", result });
       } catch (error) {
         sendError(res, error.statusCode || 500, error.message);
       }

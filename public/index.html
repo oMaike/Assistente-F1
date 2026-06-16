@@ -32,6 +32,16 @@
           </div>
         </div>
 
+        <div class="maintenance-card">
+          <div>
+            <strong>Saga de manutencao</strong>
+            <span>{{ maintenanceLabel }}</span>
+          </div>
+          <button type="button" class="maintenance-button" @click="runMaintenanceSaga" :disabled="maintenanceRunning">
+            {{ maintenanceRunning ? "Executando..." : "Atualizar base" }}
+          </button>
+        </div>
+
         <div class="quick-list">
           <button
             v-for="prompt in prompts"
@@ -50,7 +60,7 @@
           <div class="avatar">AI</div>
           <div>
             <h1>Consultor de regras da F1</h1>
-            <p>{{ headerSubtitle }}</p>
+            <p>{{ headerSubtitle }} · {{ architectureMode }}</p>
           </div>
         </header>
 

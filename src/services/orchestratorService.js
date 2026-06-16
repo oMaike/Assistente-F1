@@ -12,6 +12,8 @@ const services = {
   explanation: config.services.explanation.url,
 };
 
+let lastMaintenanceSaga = null;
+
 const server = createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
 
@@ -24,10 +26,30 @@ const server = createServer(async (req, res) => {
     sendJson(res, 200, {
       ok: true,
       service: "orchestrator-service",
-      phase: "fase-2",
-      role: "Controle: coordena RAG, MCP e LLM para compor respostas.",
+      phase: "fase-3",
+      role: "Controle: coordena RAG, MCP, LLM e a Saga de manutencao distribuida.",
       dependencies: { knowledge, externalApi, explanation },
+      saga: lastMaintenanceSaga,
     });
+    return;
+  }
+
+  if (req.method === "GET" && url.pathname === "/saga/status") {
+    sendJson(res, 200, {
+      ok: true,
+      service: "orchestrator-service",
+      saga: lastMaintenanceSaga,
+    });
+    return;
+  }
+
+  if (req.method === "POST" && url.pathname === "/saga/reindex") {
+    try {
+      const result = await runMaintenanceSaga();
+      sendJson(res, 200, result);
+    } catch (error) {
+      sendError(res, error.statusCode || 500, error.message);
+    }
     return;
   }
 
@@ -57,13 +79,11 @@ async function askDistributed(question) {
   const requestId = crypto.randomUUID();
   const intent = classifyIntent(question);
 
-  // RAG: Knowledge Base com busca vetorial
   const knowledgeResponse = await postJson(`${services.knowledge}/lookup`, { question });
   const knowledgeResults = knowledgeResponse.results || [];
 
-  // MCP: Ferramentas externas baseadas na intencao
-  let mcpToolResults = [];
-  const toolsToCall = selectToolsByIntent(intent);
+  const mcpToolResults = [];
+  const toolsToCall = selectToolsByContext(question, intent);
 
   if (toolsToCall.length > 0) {
     try {
@@ -88,7 +108,6 @@ async function askDistributed(question) {
     }
   }
 
-  // LLM: Explanation Service compoe a resposta
   const explanationResponse = await postJson(`${services.explanation}/compose`, {
     question,
     intent,
@@ -101,7 +120,7 @@ async function askDistributed(question) {
     ok: true,
     requestId,
     elapsedMs: Date.now() - startedAt,
-    architectureMode: "fase-2-rag-mcp-llm",
+    architectureMode: "fase-3-rag-mcp-llm-saga",
     question,
     intent,
     answer: explanation.answer,
@@ -112,6 +131,7 @@ async function askDistributed(question) {
       title: item.doc.title,
       source: item.doc.source,
       score: item.score,
+      chunkId: item.doc.chunkId,
       excerpt: item.doc.text.slice(0, 200) + (item.doc.text.length > 200 ? "..." : ""),
     })),
     mcpToolsUsed: mcpToolResults.map((t) => t.tool),
@@ -133,13 +153,117 @@ async function askDistributed(question) {
   };
 }
 
-function selectToolsByIntent(intent) {
-  const map = {
-    standings: ["get_driver_standings", "get_constructor_standings"],
-    weather: ["get_weather"],
-    penalty: ["get_race_control_messages"],
+async function runMaintenanceSaga() {
+  const sagaId = crypto.randomUUID();
+  const startedAt = Date.now();
+  const steps = [];
+  let knowledgeStarted = false;
+  let knowledgeCommitted = false;
+  let externalStarted = false;
+  let externalCommitted = false;
+
+  const record = (service, action, status, details = undefined) => {
+    steps.push({ service, action, status, details, at: new Date().toISOString() });
   };
-  return map[intent.type] || [];
+
+  try {
+    const knowledgeStart = await postJson(`${services.knowledge}/saga/reindex/start`, { sagaId });
+    knowledgeStarted = true;
+    record("knowledge-base-service", "start", "ok", knowledgeStart.result);
+
+    const externalStart = await postJson(`${services.externalApi}/saga/cache/start`, { sagaId });
+    externalStarted = true;
+    record("external-api-service", "start", "ok", externalStart.result);
+
+    const knowledgeCommit = await postJson(`${services.knowledge}/saga/reindex/commit`, { sagaId });
+    knowledgeCommitted = true;
+    record("knowledge-base-service", "commit", "ok", knowledgeCommit.result);
+
+    const externalCommit = await postJson(`${services.externalApi}/saga/cache/commit`, { sagaId });
+    externalCommitted = true;
+    record("external-api-service", "commit", "ok", externalCommit.result);
+
+    const saga = {
+      sagaId,
+      status: "committed",
+      startedAt: new Date(startedAt).toISOString(),
+      elapsedMs: Date.now() - startedAt,
+      steps,
+    };
+
+    lastMaintenanceSaga = saga;
+    return { ok: true, service: "orchestrator-service", saga };
+  } catch (error) {
+    const rollbackResults = [];
+
+    if (externalStarted) {
+      try {
+        const response = await postJson(`${services.externalApi}/saga/cache/rollback`, {
+          sagaId,
+          restoreActive: externalCommitted,
+        });
+        rollbackResults.push({ service: "external-api-service", status: "rolled-back", result: response.result });
+      } catch (rollbackError) {
+        rollbackResults.push({ service: "external-api-service", status: "rollback-failed", error: rollbackError.message });
+      }
+    }
+
+    if (knowledgeStarted) {
+      try {
+        const response = await postJson(`${services.knowledge}/saga/reindex/rollback`, {
+          sagaId,
+          restoreActive: knowledgeCommitted,
+        });
+        rollbackResults.push({ service: "knowledge-base-service", status: "rolled-back", result: response.result });
+      } catch (rollbackError) {
+        rollbackResults.push({ service: "knowledge-base-service", status: "rollback-failed", error: rollbackError.message });
+      }
+    }
+
+    const saga = {
+      sagaId,
+      status: rollbackResults.some((item) => item.status === "rollback-failed") ? "failed" : "compensated",
+      startedAt: new Date(startedAt).toISOString(),
+      elapsedMs: Date.now() - startedAt,
+      steps,
+      rollbackResults,
+      error: error.message,
+    };
+
+    lastMaintenanceSaga = saga;
+    return {
+      ok: saga.status !== "failed",
+      service: "orchestrator-service",
+      saga,
+    };
+  }
+}
+
+function selectToolsByContext(question, intent) {
+  const normalized = question.toLowerCase();
+  const tools = new Set();
+
+  if (intent.type === "standings" || /piloto|drivers?|pontos|classificacao/.test(normalized)) {
+    tools.add("get_driver_standings");
+  }
+
+  if (intent.type === "standings" || /equipes|construtor|construtores/.test(normalized)) {
+    tools.add("get_constructor_standings");
+  }
+
+  if (intent.type === "weather" || /clima|chuva|temperatura|tempo/.test(normalized)) {
+    tools.add("get_weather");
+  }
+
+  if (intent.type === "penalty" || /penal|race control|comiss|investig|bandeira/.test(normalized)) {
+    tools.add("get_race_control_messages");
+  }
+
+  if (/sessao|voltas?|circuito|treino|qualificacao|corrida/.test(normalized)) {
+    tools.add("get_session_info");
+  }
+
+  return Array.from(tools);
 }
 
 function parseToolResult(mcpResult) {

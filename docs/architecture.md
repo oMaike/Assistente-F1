@@ -1,4 +1,4 @@
-# Arquitetura - Fase 2
+# Arquitetura - Fase 3
 
 ## Problema escolhido
 
@@ -10,14 +10,15 @@ Esta fase implementa:
 - **RAG (Retrieval-Augmented Generation)**: base de conhecimento com documentos reais de regulamentos FIA e busca vetorial por embeddings.
 - **MCP (Model Context Protocol)**: integracao com ferramentas externas (RapidAPI F1) via protocolo MCP.
 - **LLM (Large Language Model)**: uso do Groq API (llama3-70b) para gerar respostas contextualizadas.
+- **Saga Pattern**: fluxo de manutencao distribuida com staging, commit e rollback para o indice de conhecimento e o cache de dados F1.
 
 ## Componentes
 
 - **Front Web**: interface em chat para o usuario.
 - **Gateway Service, porta 3000**: entrada publica do sistema.
-- **Orchestrator Service, porta 3001**: coordena RAG, MCP e LLM.
-- **Knowledge Base Service, porta 3002**: RAG com documentos reais + embeddings + busca vetorial.
-- **External API Service, porta 3003**: MCP Server com ferramentas RapidAPI F1.
+- **Orchestrator Service, porta 3001**: coordena RAG, MCP, LLM e a Saga de manutencao.
+- **Knowledge Base Service, porta 3002**: RAG com documentos reais + chunking + embeddings + busca vetorial.
+- **External API Service, porta 3003**: MCP Server com ferramentas RapidAPI F1 e cache snapshot da Saga.
 - **Explanation Service, porta 3004**: LLM (Groq) que compoe respostas com contexto RAG e dados MCP.
 
 ## Fluxo de dados
@@ -32,6 +33,16 @@ Esta fase implementa:
 8. Explanation Service usa LLM (Groq) para gerar a resposta final.
 9. Gateway devolve a resposta ao Front.
 
+## Fluxo de manutencao Saga
+
+1. O usuario aciona a atualizacao da base pela interface ou pela API pública.
+2. O Gateway repassa a requisicao ao Orchestrator Service.
+3. O Orchestrator inicia o staging do indice vetorial no Knowledge Base Service.
+4. O Orchestrator inicia o staging do cache externo no External API Service.
+5. Se os dois staging forem bem-sucedidos, o Orchestrator comita os snapshots.
+6. Se qualquer etapa falhar, o Orchestrator aciona rollback nos servicos que ja iniciaram o processo.
+7. O sistema preserva a ultima versao valida e segue disponivel para consultas.
+
 ## Tecnologias utilizadas
 
 - JavaScript / Node.js >= 20.
@@ -40,6 +51,7 @@ Esta fase implementa:
 - `@xenova/transformers` para embeddings locais (all-MiniLM-L6-v2).
 - `@modelcontextprotocol/sdk` para MCP.
 - Groq API (OpenAI-compatible) para LLM.
+- Snapshot persistente em arquivos locais para o indice vetorial e para o cache externo da Saga.
 
 ## Diagrama
 

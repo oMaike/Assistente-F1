@@ -5,10 +5,12 @@ createApp({
     return {
       draft: "O que significa track limits e quando gera penalidade?",
       sending: false,
+      maintenanceRunning: false,
       health: { ok: false },
       architectureMode: "microservicos",
       externalApiLabel: "checando",
       externalApiOnline: false,
+      maintenance: null,
       prompts: [
         "O que significa track limits e quando gera penalidade?",
         "Qual a diferenca entre Safety Car e Virtual Safety Car?",
@@ -22,7 +24,7 @@ createApp({
           id: crypto.randomUUID(),
           role: "assistant",
           content:
-            "Oi. Me pergunte sobre regras, penalidades, estrategias ou termos da F1. Agora na Fase 2 uso documentos reais com busca vetorial (RAG), ferramentas externas via MCP e LLM para responder.",
+            "Oi. Me pergunte sobre regras, penalidades, estrategias ou termos da F1. Agora na Fase 3 uso documentos reais com busca vetorial (RAG), ferramentas externas via MCP, LLM e uma Saga para atualizar a base com compensacao.",
         },
       ],
     };
@@ -31,6 +33,14 @@ createApp({
   computed: {
     headerSubtitle() {
       return this.sending ? "consultando microservicos..." : "online";
+    },
+
+    maintenanceLabel() {
+      if (this.maintenanceRunning) return "executando saga...";
+      if (!this.maintenance) return "base pronta";
+      if (this.maintenance.status === "committed") return "base atualizada";
+      if (this.maintenance.status === "compensated") return "falha compensada";
+      return this.maintenance.status || "base pronta";
     },
   },
 
@@ -54,10 +64,58 @@ createApp({
         const externalApi = data.downstream?.orchestrator?.body?.dependencies?.externalApi?.body;
         this.externalApiOnline = Boolean(externalApi?.ok);
         this.externalApiLabel = this.externalApiOnline ? "MCP server" : "offline";
-        this.architectureMode = "fase 2";
+        this.architectureMode = data.downstream?.orchestrator?.body?.phase || "fase 3";
+        this.maintenance = data.downstream?.orchestrator?.body?.saga || this.maintenance;
       } catch {
         this.health = { ok: false };
         this.externalApiLabel = "offline";
+      }
+    },
+
+    async runMaintenanceSaga() {
+      if (this.maintenanceRunning) return;
+
+      this.maintenanceRunning = true;
+      this.messages.push({
+        id: crypto.randomUUID(),
+        role: "system",
+        content: "Atualizacao distribuida iniciada. O orquestrador vai preparar a nova base, publicar a versao valida e compensar automaticamente se algo falhar.",
+      });
+      await this.scrollToBottom();
+
+      try {
+        const response = await fetch("/api/saga/reindex", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ reason: "demo-final" }),
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.ok) {
+          throw new Error(data.error?.message || data.saga?.error || "Falha ao executar a saga.");
+        }
+
+        this.maintenance = data.saga;
+        this.messages.push({
+          id: crypto.randomUUID(),
+          role: "system",
+          content:
+            data.saga.status === "committed"
+              ? `Saga concluida com sucesso em ${data.saga.elapsedMs} ms. A nova versao da base foi publicada.`
+              : `Saga executada com compensacao em ${data.saga.elapsedMs} ms. O sistema manteve a ultima versao valida.`,
+        });
+      } catch (error) {
+        this.messages.push({
+          id: crypto.randomUUID(),
+          role: "system",
+          content: `Nao foi possivel concluir a atualizacao distribuida. ${error.message}`,
+        });
+      } finally {
+        this.maintenanceRunning = false;
+        await this.loadHealth();
+        await this.scrollToBottom();
       }
     },
 
@@ -137,6 +195,10 @@ createApp({
 
       if (data.mcpToolsUsed && data.mcpToolsUsed.length > 0) {
         parts.push(`ferramentas MCP: ${data.mcpToolsUsed.join(", ")}`);
+      }
+
+      if (this.maintenance?.status) {
+        parts.push(`Saga: ${this.maintenance.status}`);
       }
 
       return {
